@@ -1,21 +1,37 @@
 import React, { useState } from "react";
-import Counter from "./component";
-
-export const ThemeContext = React.createContext();
+import RecipeList from "./recipeList";
+import uuidv4 from "uuid/v4";
 
 function App() {
-  const [theme, setTheme] = useState("red");
-
-  function changeTheme() {
-    setTheme((previousTheme) => (previousTheme === "red" ? "blue" : "red"));
-  }
-
   return (
-    <ThemeContext.Provider value={theme}>
-      <Counter />
-      <button onClick={changeTheme}>Let's change Background</button>
-    </ThemeContext.Provider>
+    <div>
+      <RecipeList recipes={recipeListOfArrays} />
+    </div>
   );
 }
 
+const recipeListOfArrays = [
+  {
+    id: 0,
+    name: "paprikas",
+    time: "h1 45",
+    servings: 3,
+    instructions: "1111\n22222\n33333333",
+    ingredients: [
+      { id: 0, name: "peper", amount: "2kus" },
+      { id: 1, name: "potatoes", amount: "2kus" },
+    ],
+  },
+  {
+    id: 1,
+    name: "tortilla",
+    time: "h1 45",
+    servings: 3,
+    instructions: `1111\n 22222\n 33333333`,
+    ingredients: [
+      { id: 0, name: "peper", amount: "2kus" },
+      { id: 1, name: "potatoes", amount: "2kus" },
+    ],
+  },
+];
 export default App;
