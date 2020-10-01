@@ -1,14 +1,25 @@
-import React from "react";
+import React, { useContext } from "react";
 import Recipe from "./recipe";
+import { RecipeContext } from "./App.js";
 
-export default function RecipeList({ recipes }) {
+export default function RecipeList({ recipes, search, selectedRecipe }) {
+  const { handleRecipeAdd } = useContext(RecipeContext);
+
   return (
     <>
       <div className="recipeList">
         {recipes.map((recipe) => {
-          return <Recipe key={recipe.id} {...recipe} />;
+          if (search.includes(recipe.id)) {
+            return <Recipe key={recipe.id} {...recipe} />;
+          } else {
+            return null;
+          }
         })}
-        <button className={"button-primary"}>Add New Recipe</button>
+        {!selectedRecipe && (
+          <button onClick={handleRecipeAdd} className={"button-primary"}>
+            Add New Recipe
+          </button>
+        )}
       </div>
     </>
   );
