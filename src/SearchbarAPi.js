@@ -1,9 +1,6 @@
 import React from "react";
 
-export default function SearcharAPI({
-  handleApiSearch,
-  //   handleApiSearchButton,
-}) {
+export default function SearcharAPI({ handleApiCall, handleApiSearch }) {
   return (
     <div className={"SearchbarAPI__Wrapper"}>
       <input
@@ -11,7 +8,9 @@ export default function SearcharAPI({
         className={"SearchbarAPI__Main-Input"}
         type="text"
       ></input>
-      <button className={"SearchbarAPI__Main-btn"}>Search</button>
+      <button onClick={handleApiCall} className={"SearchbarAPI__Main-btn"}>
+        Search
+      </button>
     </div>
   );
 }

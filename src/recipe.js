@@ -39,16 +39,26 @@ export default function Recipe({
         <span>Servings: </span>
         <span>{servings}</span>
       </div>
-      <div className={"recipe__instructions"}>
-        <span>Instructions: </span>
-        <div className={"recipe__value--indented"}>{instructions}</div>
-      </div>
-      <div className={"recipe__ingredients"}>
-        <span>Ingredients: </span>
-        <div className={"recipe__value--indented"}>
-          <IngredientsList ingredienst={ingredients} />
-        </div>
-      </div>
+      <details className={"details-component details-component__instructions"}>
+        <summary>Instructions</summary>
+        <ul className={"details-component__instructions__grid"}>
+          {instructions.map((step, index) => {
+            return (
+              <div key={step.step}>
+                <span>{index + 1} Step</span>
+                <li className={"details-component__instructions__grid__rows"}>
+                  {step.step}
+                </li>
+              </div>
+            );
+          })}
+        </ul>
+      </details>
+      <details className={"details-component details-component__ingredients"}>
+        <summary>Ingredients</summary>
+        <IngredientsList ingredienst={ingredients} />
+      </details>
+      ;
     </div>
   );
 }
