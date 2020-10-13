@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React from "react";
 import Recipe from "./recipe";
-import { RecipeContext } from "./App.js";
+// import { RecipeContext } from "./App.js";
 
-export default function RecipeList({ recipes, search, selectedRecipe }) {
-  const { handleRecipeAdd } = useContext(RecipeContext);
+export default function RecipeList({ recipes, search }) {
+  // const { handleRecipeAdd } = useContext(RecipeContext);
 
   return (
     <>
@@ -15,11 +15,11 @@ export default function RecipeList({ recipes, search, selectedRecipe }) {
             return null;
           }
         })}
-        {!selectedRecipe && (
+        {/* {!selectedRecipe && (
           <button onClick={handleRecipeAdd} className={"button-primary"}>
             Add New Recipe
           </button>
-        )}
+        )} */}
       </div>
     </>
   );

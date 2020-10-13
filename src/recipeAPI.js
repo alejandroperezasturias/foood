@@ -2,9 +2,11 @@ import React, { useContext } from "react";
 import { RecipeContext } from "./App.js";
 
 export default function RecipeAPI({ recipe }) {
-  const { handleRecipeSelectIP, handleAddRecipeAPItoSavedOnes } = useContext(
-    RecipeContext
-  );
+  const {
+    handleRecipeSelectIP,
+    handleAddRecipeAPItoSavedOnes,
+    recipes,
+  } = useContext(RecipeContext);
 
   return (
     <div>
@@ -48,7 +50,7 @@ export default function RecipeAPI({ recipe }) {
               onClick={() => handleAddRecipeAPItoSavedOnes(recipe.id)}
               className={"btn-add"}
             >
-              Add
+              {recipes.find((r) => r.id === recipe.id) ? "Added" : "Add"}
             </button>
             <button
               onClick={() => handleRecipeSelectIP(recipe.id)}

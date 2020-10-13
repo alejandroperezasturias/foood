@@ -2,20 +2,24 @@ import React, { useState, useEffect } from "react";
 import RecipeList from "./recipeList";
 import EditList from "./EditList";
 import SearchBar from "./SearchBar";
-import { v4 as uuidv4 } from "uuid";
+// import { v4 as uuidv4 } from "uuid";
 import SearchbarAPI from "./SearchbarAPi";
 import RecipeAPIList from "./recipeAPIList";
 import DetailsRecipeAPI from "./DetailsRecipeAPI";
 import Placeholderlist from "./Placeholderlist";
-
+import Nav from "./nav";
+import "./recipe.css";
 import axios from "axios";
-
 const LOCAL_STORAGE_KEY = "cookingWithReact.recipes";
 
 // Let's use context
 export const RecipeContext = React.createContext();
 
 function App() {
+  // NAV
+  const [seeMyRecipes, setSeeMyRecipes] = useState(false);
+
+  //  EDITOR
   const [recipes, setRecipes] = useState(recipeListOfArrays);
   const [search, setSearch] = useState([]);
   const [selectedRecipeID, setselectedRecipeID] = useState();
@@ -24,10 +28,22 @@ function App() {
   );
 
   // API
-  const [query, setQuery] = useState("tofu");
-  const [callAPI, setCallAPI] = useState("tofu");
+  const [query, setQuery] = useState({
+    query: "",
+    cuisine: "",
+    diet: "",
+    plate: "",
+  });
+  const [callAPI, setCallAPI] = useState({
+    query: "",
+    cuisine: "",
+    diet: "",
+    plate: "",
+    sort: "meta-score",
+    sortDirection: "desc",
+  });
   const [loading, setLoading] = useState("false");
-  const [recipesAPI, setRecipesAPI] = useState([]);
+  const [recipesAPI, setRecipesAPI] = useState([""]);
   const [idSelectedRecipeAPI, setIDselectedRecipeAPI] = useState();
   const [offSet, setOffset] = useState(0);
   const selectedRecipeAPI = recipesAPI.find(
@@ -40,18 +56,72 @@ function App() {
   }, [numberOfResults]);
   // Functions
 
+  // Nav
+
+  function handleSort(sortby) {
+    setQuery((prevSort) => {
+      return { ...prevSort, sort: sortby };
+    });
+  }
+
+  function handleSortDirection(sortdirection) {
+    setQuery((prevSort) => {
+      return { ...prevSort, sortDirection: sortdirection };
+    });
+  }
+
+  function handleCuisine(cuisine) {
+    setQuery((prevQuery) => {
+      return { ...prevQuery, cuisine: cuisine };
+    });
+  }
+  function handleDiet(diet) {
+    setQuery((prevQuery) => {
+      return { ...prevQuery, diet: diet };
+    });
+  }
+  function handlePlate(plate) {
+    setQuery((prevQuery) => {
+      return { ...prevQuery, plate: plate };
+    });
+  }
+
+  function handleTogglePage() {
+    if (seeMyRecipes === false) {
+      setSeeMyRecipes(!seeMyRecipes);
+    } else {
+      return;
+    }
+  }
+
+  function handleTogglePageBackToSearch() {
+    if (seeMyRecipes === true) {
+      setSeeMyRecipes(!seeMyRecipes);
+    }
+  }
+
+  useEffect(() => {
+    console.log(recipesAPI.length);
+  }, [recipesAPI]);
+
   // API
 
   function handleOffset() {
     setOffset((prev) => (prev += 8));
   }
   function handleApiSearch(text) {
-    setQuery(text);
+    setQuery((prevQuery) => {
+      return { ...prevQuery, query: text };
+    });
   }
 
+  useEffect(() => {
+    console.log(query);
+  }, [query]);
+
+  // This is the button that sets the search
   function handleApiCall(e) {
     setCallAPI(query);
-    console.log(callAPI);
   }
 
   function handleRecipeSelectIP(id) {
@@ -64,25 +134,42 @@ function App() {
   }
 
   function handleAddRecipeAPItoSavedOnes(x) {
-    const recipe = recipesAPI.find((recipe) => recipe.id === x);
-    const newRecipe = {
-      id: recipe.id,
-      name: recipe.title,
-      time: recipe.readyInMinutes,
-      servings: recipe.servings,
-      instructions: recipe.analyzedInstructions[0].steps,
-      ingredients: recipe.extendedIngredients,
-    };
-    console.log(newRecipe);
-    setRecipes([...recipes, newRecipe]);
+    if (recipes.find((recipe) => recipe.id === x)) {
+      return;
+    } else {
+      const recipe = recipesAPI.find((recipe) => recipe.id === x);
+      const newRecipe = {
+        id: recipe.id,
+        vegan: recipe.vegan,
+        vegetarian: recipe.vegetarian,
+        veryHealthy: recipe.veryHealthy,
+        veryPopular: recipe.veryPopular,
+        image: recipe.image,
+        score: recipe.spoonacularScore,
+        name: recipe.title,
+        time: recipe.readyInMinutes,
+        servings: recipe.servings,
+        instructions: recipe.analyzedInstructions[0].steps,
+        ingredients: recipe.extendedIngredients,
+      };
+      setRecipes([...recipes, newRecipe]);
+    }
   }
 
   // Editor
   function handleSearch(searchQuery) {
     let fileterdRecipesIDS = [];
-    const fileterdRecipes = recipes.filter((recipe) =>
-      recipe.name.includes(searchQuery)
+    const fileterdRecipes = recipes.filter(
+      (recipe) =>
+        recipe.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+        recipe.ingredients.some((ingredient) => {
+          let check = ingredient.name
+            .toLowerCase()
+            .includes(searchQuery.toLowerCase());
+          return check;
+        })
     );
+
     fileterdRecipes.forEach((recipe) => {
       fileterdRecipesIDS.push(recipe["id"]);
     });
@@ -106,22 +193,6 @@ function App() {
 
   function handleCloseRecipeEdit() {
     setselectedRecipeID(null);
-  }
-
-  function handleRecipeAdd() {
-    const newRecipe = {
-      id: uuidv4(),
-      name: "",
-      time: "",
-      servings: 1,
-      instructions: "",
-      ingredients: [
-        { id: uuidv4(), name: "", amount: "" },
-        { id: uuidv4(), name: "", amount: "" },
-      ],
-    };
-    setselectedRecipeID(newRecipe.id);
-    setRecipes([...recipes, newRecipe]);
   }
 
   function handleRecipeDelete(id) {
@@ -148,22 +219,25 @@ function App() {
       url:
         "https://api.spoonacular.com/recipes/complexSearch?apiKey=0ca5b73430174b75ba4618802210117f",
       params: {
-        query: callAPI,
+        cuisine: callAPI.cuisine,
+        diet: callAPI.diet,
+        type: callAPI.plate,
+        query: callAPI.query,
         ignorePantry: true,
         number: numberOfResults,
         addRecipeInformation: true,
         instructionsRequired: true,
         fillIngredients: true,
-        sort: "meta-score",
-        sortDirection: "desc",
+        sort: callAPI.sort,
+        sortDirection: callAPI.sortDirection,
         offset: offSet,
         cancelToken: new axios.CancelToken((c) => (cancel = c)),
       },
     })
       .then((response) => {
-        setRecipesAPI([...recipesAPI, ...response.data.results]);
-        console.log(response.data.results);
+        setRecipesAPI(response.data.results);
         setLoading(false);
+        console.log(recipesAPI);
       })
       .catch((e) => {
         if (axios.isCancel(e)) {
@@ -175,7 +249,7 @@ function App() {
       console.log("unmounting");
       cancel();
     };
-  }, [callAPI, offSet]);
+  }, [callAPI]);
 
   useEffect(() => {
     // When load set the search equal to all the recipes pulled from LocalStorage
@@ -185,11 +259,8 @@ function App() {
         fileterdRecipesIDS.push(recipe["id"]);
       });
       setSearch(fileterdRecipesIDS);
-    } else if (selectedRecipeID) {
-      // When add New Recipe. Pass only that id to the search
-      setSearch([...search, ...selectedRecipeID]);
     }
-  }, [recipes]);
+  }, [recipes, selectedRecipeID]);
 
   useEffect(() => {
     localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(recipes));
@@ -197,7 +268,6 @@ function App() {
 
   // Context
   const recipeContextValue = {
-    handleRecipeAdd,
     handleRecipeDelete,
     handleRecipeSelect,
     handleCloseRecipeEdit,
@@ -207,47 +277,70 @@ function App() {
     handleCloseRecipeAPI,
     handleAddRecipeAPItoSavedOnes,
     selectedRecipeAPI,
+    recipes,
+    handleCuisine,
+    handleDiet,
+    handlePlate,
+    handleSort,
+    handleSortDirection,
   };
 
   return (
     <div>
-      <div>
-        <RecipeContext.Provider value={recipeContextValue}>
-          {selectedRecipeAPI && <DetailsRecipeAPI recipe={selectedRecipeAPI} />}
-          {!selectedRecipeAPI && (
-            <SearchbarAPI
-              handleApiSearch={handleApiSearch}
-              handleApiCall={handleApiCall}
-            />
-          )}
-          {!selectedRecipeAPI && (
-            <RecipeAPIList
-              apiRecipes={recipesAPI}
-              handleOffset={handleOffset}
-              loading={loading}
-            />
-          )}
-          {loading && <Placeholderlist numberOfResults={numberOfResults} />}
-        </RecipeContext.Provider>
-      </div>
-      {/* I need to make sure to do not let the program add recipes when the filter is active */}
-      <div>
-        <SearchBar
-          handleSearch={handleSearch}
-          selectedRecipe={selectedRecipe}
+      {!selectedRecipeID || !selectedRecipeID ? (
+        <Nav
+          handleTogglePage={handleTogglePage}
+          handleTogglePageBackToSearch={handleTogglePageBackToSearch}
+          seeMyRecipes={seeMyRecipes}
         />
-        <div className={"main-app"}>
+      ) : (
+        <></>
+      )}
+      {!seeMyRecipes && (
+        <div>
           <RecipeContext.Provider value={recipeContextValue}>
-            <RecipeList
-              recipes={recipes}
-              search={search}
-              selectedRecipe={selectedRecipe}
-            />
-            {selectedRecipe && <EditList recipe={selectedRecipe} />}
+            {selectedRecipeAPI && (
+              <DetailsRecipeAPI recipe={selectedRecipeAPI} />
+            )}
+            {!selectedRecipeAPI && (
+              <SearchbarAPI
+                handleApiSearch={handleApiSearch}
+                handleApiCall={handleApiCall}
+              />
+            )}
+            {!selectedRecipeAPI && !loading && (
+              <RecipeAPIList
+                apiRecipes={recipesAPI}
+                handleOffset={handleOffset}
+                loading={loading}
+              />
+            )}
+            {loading && <Placeholderlist />}
           </RecipeContext.Provider>
         </div>
-      </div>
-      )
+      )}
+      {/* I need to make sure to do not let the program add recipes when the filter is active */}
+      {seeMyRecipes && (
+        <div>
+          <SearchBar
+            handleSearch={handleSearch}
+            selectedRecipe={selectedRecipe}
+          />
+          <div className={"main-app"}>
+            <RecipeContext.Provider value={recipeContextValue}>
+              {!selectedRecipeID && (
+                <RecipeList
+                  recipes={recipes}
+                  search={search}
+                  // selectedRecipe={selectedRecipe}
+                />
+              )}
+              {selectedRecipe && <EditList recipe={selectedRecipe} />}
+            </RecipeContext.Provider>
+          </div>
+          )
+        </div>
+      )}
     </div>
   );
 }
