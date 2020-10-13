@@ -1,0 +1,134 @@
+.sectionWrapper {
+  position: absolute;
+  top: 0rem;
+  left: 0rem;
+  right: 0rem;
+  bottom: 0rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  .details-component-wrapper {
+    background: #cdbdce;
+    width: 70%;
+    margin: 3rem auto 3rem auto;
+    border-radius: 1rem;
+    height: 60vh;
+    overflow-y: scroll;
+    text-align: center;
+    position: relative;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+
+    .details-component {
+      flex: 1;
+      padding: 1rem 1rem;
+      margin: 1rem;
+      //   overflow-y: scroll;
+    }
+
+    .details-component__title {
+      h1 {
+        font-family: "Caveat", cursive;
+      }
+    }
+    .details-component__hero {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0;
+      padding: 0;
+      flex: 1;
+      width: 100%;
+      .details-component__list {
+        flex: 1;
+        li {
+          list-style: none;
+          padding: 0.6rem 1.5rem;
+          text-align: center;
+        }
+      }
+
+      .details-component__hero__image {
+        flex: 1;
+        width: 100%;
+        height: 100%;
+        img {
+          width: 100%;
+          height: 80%;
+          clip-path: circle(100.8% at 100% 0);
+          object-fit: cover;
+        }
+      }
+    }
+    .details-component__instructions,
+    .details-component__ingredients {
+      flex: 3;
+      width: 90%;
+      overflow-y: scroll;
+
+      summary {
+        background-color: white;
+        border-radius: 1rem;
+        outline: none;
+        padding: 0.5rem 0rem;
+      }
+      .details-component__ingredients__grid {
+        margin-top: 1rem;
+        margin-left: 1rem;
+        .details-component__ingredients__grid__rows {
+          text-align: left;
+          padding: 0.3em;
+        }
+      }
+
+      .details-component__instructions__grid {
+        margin-top: 1rem;
+        margin-left: 1rem;
+        text-align: left;
+        list-style: none;
+
+        h1 {
+          font-weight: 700;
+          font-size: 1rem;
+          padding: 1em 0em;
+        }
+        li {
+          padding: 0.3em 0em;
+        }
+      }
+    }
+    .bottom-close {
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 3rem;
+      height: 3rem;
+      border-radius: 0rem 1rem 0rem 1rem;
+      background: #1d3557;
+      transition: background 250ms;
+      color: white;
+
+      &:hover {
+        background: #2e4057;
+      }
+    }
+  }
+
+  details[open] summary ~ * {
+    animation: sweep 0.5s ease-in-out;
+  }
+
+  @keyframes sweep {
+    0% {
+      opacity: 0;
+      margin-top: -1rem;
+    }
+    100% {
+      opacity: 1;
+      margin-top: 1rem;
+    }
+  }
+}

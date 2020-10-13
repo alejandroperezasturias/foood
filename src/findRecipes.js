@@ -22,7 +22,7 @@ export default function FindRecipes(ingredients) {
       },
     })
       .then((response) => {
-        setRecipesapi((p) => [...p, response.data.results]);
+        setRecipesapi(response.data.results);
         console.log(response.data.results);
         setLoading(false);
       })

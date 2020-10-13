@@ -1,0 +1,30 @@
+.recipe-API__list {
+  width: 90%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: center;
+  gap: 4rem;
+  margin: 0rem auto 4rem auto;
+}
+
+.no-recipes-message {
+  height: 80vh;
+  justify-content: center;
+  width: 80%;
+  margin: auto;
+  h3 {
+    color: rgb(75, 75, 75);
+    size: 1.5rem;
+    position: relative;
+    &:after {
+      content: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdQq_QCJ8o0a7ffr-N_sjWPStjVW2NDN6hCw&usqp=CAU");
+      position: absolute;
+      top: -1300%;
+      //   width: 1rem;
+      //   height: 1rem;
+      left: +50%;
+      transform: translateX(-50%);
+    }
+  }
+}

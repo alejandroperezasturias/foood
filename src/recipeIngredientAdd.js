@@ -19,16 +19,23 @@ export default function RecipeIngredientAdd({
     <>
       <input
         onChange={(e) => {
-          handleChange({ name: e.target.value });
+          handleChange({ name: String(e.target.value) });
         }}
         value={ingredient.name}
         type="text"
       ></input>
       <input
         onChange={(e) => {
-          handleChange({ amount: e.target.value });
+          handleChange({ amount: parseInt(e.target.value) || "" });
         }}
         value={ingredient.amount}
+        type="number"
+      ></input>
+      <input
+        onChange={(e) => {
+          handleChange({ unit: e.target.value });
+        }}
+        value={ingredient.unit}
         type="text"
       ></input>
       <button onClick={handleDelete} className={"btn--danger"}>

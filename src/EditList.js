@@ -2,6 +2,7 @@ import React, { useContext } from "react";
 import RecipeIngredientAdd from "./recipeIngredientAdd";
 import { RecipeContext } from "./App.js";
 import { v4 as uuidv4 } from "uuid";
+import "./editlist.scss";
 
 export default function EditList({ recipe }) {
   const { handleCloseRecipeEdit, handleRecipeChange } = useContext(
@@ -18,6 +19,7 @@ export default function EditList({ recipe }) {
     const newIngredients = [...recipe.ingredients];
     const indexIngredient = newIngredients.findIndex((r) => r.id === id);
     newIngredients[indexIngredient] = ingredient;
+    console.log(newIngredients[indexIngredient]);
     handleChange({ ingredients: newIngredients });
   }
 
@@ -30,20 +32,24 @@ export default function EditList({ recipe }) {
   }
 
   function handleAddIngredient() {
-    const newIngredient = { id: uuidv4(), name: "", amount: "" };
+    const newIngredient = { id: uuidv4(), name: "", amount: "", unit: "" };
     const newIngredients = [...recipe.ingredients, newIngredient];
     handleChange({ ingredients: newIngredients });
   }
 
   return (
     <div className="edit-list">
-      <div>
-        <button onClick={handleCloseRecipeEdit} className={"btn btn--close"}>
-          &times;
-        </button>
+      <div className={"edit-list__component_image"}>
+        <img src={recipe.image} alt={recipe.name}></img>
       </div>
-      <form>
-        <div className="edit-list__component ">
+      <div className={"edit-list__details-component-wrapper-relative"}>
+        <div>
+          <button onClick={handleCloseRecipeEdit} className={"bottom-close"}>
+            &times;
+          </button>
+        </div>
+
+        <div className="edit-list__component">
           <label htmlFor="name">Name</label>
           <input
             value={recipe.name}
@@ -80,51 +86,57 @@ export default function EditList({ recipe }) {
             }}
           ></input>
         </div>
-        <div className="edit-list__component">
-          <label htmlFor="text">Instructions</label>
-          <textarea
-            type="textarea"
-            className={"messageInput"}
-            placeholder="Type something if you want..."
-            rows="5"
-            name="text"
-            value={recipe.instructions}
-            onChange={(e) => {
-              handleChange({ instructions: e.target.value });
-            }}
-          />
+
+        <details className={"details-component__instructions-edit-list"}>
+          {/* recipe.instructions.map */}
+          <summary>Instructions</summary>
+          <ul className={"details-component__instructions__grid"}>
+            {recipe.instructions.map((step, index) => {
+              return (
+                <div key={uuidv4()}>
+                  <span>{index + 1} Step</span>
+                  <li className={"details-component__instructions__grid__rows"}>
+                    {" "}
+                    {step.step}
+                  </li>
+                </div>
+              );
+            })}
+          </ul>
+        </details>
+        <details className="details-component__ingredients-edit-list">
+          <summary>Ingredients</summary>
+          <div className={"edit-list--grid"}>
+            <div>Name</div>
+            <div>Amount</div>
+            <div>Unit</div>
+            <div></div>
+            {recipe.ingredients.map((ingredient) => {
+              return (
+                <RecipeIngredientAdd
+                  ingredient={ingredient}
+                  key={ingredient.id}
+                  handleIngredientChange={handleIngredientChange}
+                  handleDeleteIngredient={handleDeleteIngredient}
+                  handleAddIngredient={handleAddIngredient}
+                />
+              );
+            })}
+          </div>
+          <div className={"add-ingredient-button"}>
+            <button onClick={handleAddIngredient}>Add Ingredient</button>
+          </div>
+        </details>
+
+        <div>
+          <button
+            onClick={handleCloseRecipeEdit}
+            className="btn btn--save"
+            type="submit"
+          >
+            Save
+          </button>
         </div>
-      </form>
-      <br />
-      <h3>Ingredients</h3>
-      <div className="edit-list__component edit-list--grid">
-        <div>Name</div>
-        <div>Amount</div>
-        <div></div>
-        {recipe.ingredients.map((ingredient) => {
-          return (
-            <RecipeIngredientAdd
-              ingredient={ingredient}
-              key={ingredient.id}
-              handleIngredientChange={handleIngredientChange}
-              handleDeleteIngredient={handleDeleteIngredient}
-            />
-          );
-        })}
-      </div>
-      <div>
-        <button onClick={handleAddIngredient} className="btn btn--add">
-          Add Ingredients
-        </button>
-      </div>
-      <div>
-        <button
-          onClick={handleCloseRecipeEdit}
-          className="btn btn--save"
-          type="submit"
-        >
-          Save
-        </button>
       </div>
     </div>
   );

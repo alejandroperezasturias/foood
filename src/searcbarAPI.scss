@@ -1,0 +1,194 @@
+.SearchbarAPI__Wrapper {
+  display: flex;
+  height: 18vh;
+  justify-content: center;
+  align-items: center;
+  width: 60%;
+  margin: auto;
+  .SearchbarAPI__Main-Input {
+    height: 3rem;
+    width: 100%;
+    border-radius: 0.5rem 0rem 0rem 0.5rem;
+    background: #f1faee;
+  }
+  .SearchbarAPI__Main-btn_wraprer_search,
+  .SearchbarAPI__Main-btn_wrapper {
+    padding: initial;
+    margin-left: 0rem;
+    font-size: 0.8rem;
+    height: 3rem;
+    border: none 0px transparent;
+    color: white;
+    border-radius: 0rem 0.5rem 0.5rem 0rem;
+    cursor: pointer;
+    background: #f1faee;
+    transition: background-color 250ms;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .SearchbarAPI__Main-btn_wraprer_search {
+    border-radius: 0rem 0.5rem 0.5rem 0rem;
+    width: 11rem;
+    .SearchbarAPI__Main-btn {
+      font-size: 1rem;
+      font-weight: 400;
+      width: 80%;
+      height: 80%;
+      margin: auto;
+      background: #203657;
+      color: whitesmoke;
+      cursor: pointer;
+      border-radius: 0.6rem;
+      transition: background 200ms ease;
+      &:hover {
+        background: #334055;
+      }
+    }
+  }
+  .SearchbarAPI__Main-btn_wrapper {
+    width: 9rem;
+    border-radius: 0rem;
+    height: 3rem;
+    width: 7rem;
+
+    .SearchbarAPI__Filter-btn,
+    .SearchbarAPI__Sort-btn {
+      font-size: 0.8rem;
+      width: 80%;
+      height: 80%;
+      margin: auto;
+      background: #f1faee;
+      padding: 1em;
+      color: black;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: space-evenly;
+      gap: 0.4rem;
+      border-radius: 0.6rem;
+      transition: background 200ms ease;
+      &:hover {
+        background: white;
+      }
+    }
+  }
+}
+
+// .SearchbarAPI-options__wrapper {
+//   display: flex;
+//   width: 70%;
+//   margin: auto;
+//   height: 10rem;
+//   align-items: center;
+//   justify-content: center;
+
+//   .switch {
+//     .switch-input {
+//       display: none;
+//     }
+//     .switch-label {
+//       position: relative;
+//       display: block;
+//       cursor: pointer;
+//       padding: 1em;
+//       border-radius: 2em;
+//       clip: rect(0 0 0 0);
+//       color: rgb(235, 232, 232);
+//       box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.09);
+//       font-family: "Nunito";
+//       user-select: none;
+//       background: rgb(211, 210, 210);
+//       transition: background-color 200ms ease-in-out;
+//     }
+//     .switch-label::before {
+//       content: "";
+//       position: absolute;
+//       cursor: pointer;
+//       top: -10%;
+//       right: 0%;
+//       opacity: 0;
+//       border-radius: 1rem;
+//       width: 2rem;
+//       height: 2rem;
+//       text-align: center;
+//       vertical-align: center;
+//       transition: opacity 200ms ease-in-out content 300ms ease-in-out;
+//     }
+
+//     .switch-input:checked + .switch-label {
+//       background-color: #558b6e;
+//     }
+//     .switch-input:checked + .switch-label::before {
+//       opacity: 1;
+//       content: "\01F340";
+//     }
+
+//     .healthy:checked + .switch-label {
+//       background-color: #26547c;
+//     }
+//     .healthy:checked + .switch-label::before {
+//       opacity: 1;
+//       content: "\01F49C";
+//     }
+
+//     .vegan:checked + .switch-label {
+//       background-color: #665687;
+//     }
+//     .vegan:checked + .switch-label::before {
+//       opacity: 1;
+//       content: "\01F344";
+//     }
+//   }
+// }
+
+// switch {
+//     position: relative;
+//   }
+//   .switch-input {
+//     display: none;
+//   }
+//   .switch-label {
+//     display: block;
+//     // width: 38px;
+//     // padding: 1em;
+//     text-indent: -130%;
+//     clip: rect(0 0 0 0);
+//     // color: transparent;
+//     font-family: "Nunito";
+//     user-select: none;
+//   }
+//   .switch-label::before,
+//   .switch-label::after {
+//     display: block;
+//     position: absolute;
+//     cursor: pointer;
+//   }
+//   .switch-label::before {
+//     content: "";
+//     width: 58%;
+//     height: 100%;
+//     background-color: red;
+//     border-radius: 1em;
+//     -webkit-transition: background-color 0.03s ease;
+//     transition: background-color 0.03s ease;
+//   }
+//   .switch-label::after {
+//     content: "";
+//     top: 0;
+//     left: 0;
+//     width: 25%;
+//     height: 100%;
+//     border-radius: 100%;
+//     background-color: #fff;
+//     box-shadow: 0 0 5px rgba(0, 0, 0, 0.45);
+//     -webkit-transition: left 0.25s ease;
+//     transition: left 0.25s ease content 0.1s ease;
+//   }
+//   .switch-input:checked + .switch-label::before {
+//     background-color: #89c12d;
+//   }
+//   .switch-input:checked + .switch-label::after {
+//     left: 33%;
+//   }
+// }
