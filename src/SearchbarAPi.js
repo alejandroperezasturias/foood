@@ -1,48 +1,47 @@
-import React, { useState } from "react";
-import "./searcbarAPI.scss";
-import FilterSearchAPI from "./FilterSearchAPI";
-import SortsearchAPI from "./sortsearchAPI.js";
+import React, { useState } from 'react'
+import './searcbarAPI.scss'
+import FilterSearchAPI from './FilterSearchAPI'
+import SortsearchAPI from './sortsearchAPI.js'
 
 export default function SearcharAPI({ handleApiCall, handleApiSearch }) {
-  const [filterInView, setFilterInView] = useState(false);
-  const [sortInView, setsortInView] = useState(false);
+  const [filterInView, setFilterInView] = useState(false)
+  const [sortInView, setsortInView] = useState(false)
   function handleFilterInView() {
-    setFilterInView(!filterInView);
+    setFilterInView(!filterInView)
   }
   function handleSortInView() {
-    setsortInView(!sortInView);
-    console.log("Hi");
+    setsortInView(!sortInView)
+    console.log('Hi')
   }
 
   return (
     <div>
-      <div className={"SearchbarAPI__Wrapper"}>
+      <div className={'SearchbarAPI__Wrapper'}>
         <input
           onChange={(e) => handleApiSearch(e.target.value)}
-          className={"SearchbarAPI__Main-Input"}
+          className={'SearchbarAPI__Main-Input'}
           type="text"
-          placeholder="vietnamese"
         ></input>
-        <div className={"SearchbarAPI__Main-btn_wrapper"}>
+        <div className={'SearchbarAPI__Main-btn_wrapper'}>
           <button
             onClick={handleFilterInView}
-            className={"SearchbarAPI__Filter-btn"}
+            className={'SearchbarAPI__Filter-btn'}
           >
             <i className="fas fa-sliders-h"></i>
             <span>Filter</span>
           </button>
         </div>
-        <div className={"SearchbarAPI__Main-btn_wrapper"}>
+        <div className={'SearchbarAPI__Main-btn_wrapper'}>
           <button
             onClick={handleSortInView}
-            className={"SearchbarAPI__Sort-btn"}
+            className={'SearchbarAPI__Sort-btn'}
           >
             <i className="fas fa-random"></i>
             <span>Sort</span>
           </button>
         </div>
-        <div className={"SearchbarAPI__Main-btn_wraprer_search"}>
-          <button onClick={handleApiCall} className={"SearchbarAPI__Main-btn"}>
+        <div className={'SearchbarAPI__Main-btn_wraprer_search'}>
+          <button onClick={handleApiCall} className={'SearchbarAPI__Main-btn'}>
             Search
           </button>
         </div>
@@ -50,5 +49,5 @@ export default function SearcharAPI({ handleApiCall, handleApiSearch }) {
       <FilterSearchAPI filterInView={filterInView} />
       <SortsearchAPI sortInView={sortInView} />
     </div>
-  );
+  )
 }
