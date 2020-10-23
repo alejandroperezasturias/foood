@@ -17,10 +17,11 @@
     color: rgb(75, 75, 75);
     size: 1.5rem;
     position: relative;
+    text-align: center;
     &:after {
-      content: url("https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdQq_QCJ8o0a7ffr-N_sjWPStjVW2NDN6hCw&usqp=CAU");
+      content: url('https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcSdQq_QCJ8o0a7ffr-N_sjWPStjVW2NDN6hCw&usqp=CAU');
       position: absolute;
-      top: -1300%;
+      top: -600%;
       //   width: 1rem;
       //   height: 1rem;
       left: +50%;

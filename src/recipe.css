@@ -2,7 +2,7 @@
   padding: 0px;
   margin: 0px;
   box-sizing: border-box;
-  font-family: "nunito";
+  font-family: 'nunito';
   color: rgb(51, 51, 51);
 }
 
@@ -10,7 +10,7 @@ html {
   /* One rem === 10px */
   font-size: 62.5%;
   scroll-behavior: smooth;
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
 }
 
 body {
@@ -70,7 +70,7 @@ label {
 
 .recipe-API {
   flex: 1;
-  background: whitesmoke;
+  background: #f3f2f2;
   border-radius: 3rem;
   gap: 1rem;
   margin-bottom: 1rem;
@@ -91,13 +91,13 @@ label {
   color: white;
   border-radius: 0.5rem;
   cursor: pointer;
-  background-color: #457b9d;
+  background-color: #38b5c0;
   transition: background-color 250ms;
   margin-bottom: 4rem;
 }
 
 .recipe-API__list__More-Button:hover {
-  background-color: #507e9b;
+  background-color: #55b9c2;
 }
 
 .recipe-component__score,
@@ -129,13 +129,13 @@ label {
 }
 
 .recipe-component__score h3 {
-  font-family: "nunito", cursive;
+  font-family: 'nunito', cursive;
   font-weight: 700;
   font-size: 1rem;
   color: whitesmoke;
 }
 .recipe-component__score span {
-  font-family: "nunito", cursive;
+  font-family: 'nunito', cursive;
   font-weight: 300;
   font-size: 0.9rem;
   color: whitesmoke;
@@ -158,7 +158,7 @@ label {
 
 .recipe-component__image img {
   width: 100%;
-  height: 17rem;
+  height: 16.7rem;
   object-fit: cover;
   border-radius: 3rem 0rem 0rem 3rem;
 }
@@ -171,7 +171,7 @@ label {
 .recipe-API__header h1 {
   color: #292929;
   font-size: 1.5rem;
-  font-family: "Caveat", cursive;
+  font-family: 'Caveat', cursive;
 }
 
 .recipe-component__caracteristics {

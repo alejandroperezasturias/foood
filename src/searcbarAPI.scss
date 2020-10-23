@@ -1,22 +1,23 @@
 .SearchbarAPI__Wrapper {
   display: flex;
-  height: 18vh;
+  height: 25vh;
   justify-content: center;
   align-items: center;
-  width: 60%;
+  width: 65%;
   margin: auto;
   .SearchbarAPI__Main-Input {
-    height: 3rem;
+    height: 4rem;
     width: 100%;
     border-radius: 0.5rem 0rem 0rem 0.5rem;
     background: #f1faee;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.09);
   }
   .SearchbarAPI__Main-btn_wraprer_search,
   .SearchbarAPI__Main-btn_wrapper {
     padding: initial;
     margin-left: 0rem;
     font-size: 0.8rem;
-    height: 3rem;
+    height: 4rem;
     border: none 0px transparent;
     color: white;
     border-radius: 0rem 0.5rem 0.5rem 0rem;
@@ -26,6 +27,8 @@
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1;
+    box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.09);
   }
   .SearchbarAPI__Main-btn_wraprer_search {
     border-radius: 0rem 0.5rem 0.5rem 0rem;
@@ -49,7 +52,7 @@
   .SearchbarAPI__Main-btn_wrapper {
     width: 9rem;
     border-radius: 0rem;
-    height: 3rem;
+    height: 4rem;
     width: 7rem;
 
     .SearchbarAPI__Filter-btn,
