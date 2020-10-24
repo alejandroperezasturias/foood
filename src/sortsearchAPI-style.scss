@@ -1,75 +1,76 @@
 .sort-wrapper {
-  display: flex;
-  width: 70%;
-  margin: auto;
-  height: 0.5rem;
-  align-items: center;
-  justify-content: center;
-  margin-bottom: 5rem;
-  margin-top: 0rem;
-  gap: 3rem;
-  opacity: 0;
-  transition: all 0.5s ease;
-  transform: translateY(-4rem);
-  pointer-events: none;
+	display: flex;
+	width: 70%;
+	margin: auto;
+	height: 0.5rem;
+	align-items: center;
+	justify-content: center;
+	margin-bottom: 4rem;
+	margin-top: 2rem;
+	gap: 4em;
+	opacity: 0;
+	transition: all 0.5s ease;
+	transform: translateY(-4rem);
+	pointer-events: none;
 
-  .sort::after {
-    content: "🔎";
-    position: absolute;
-    right: 0rem;
-    top: 0rem;
-    bottom: 0rem;
-    color: black;
-    pointer-events: none;
-    transition: all 0s ease;
-    padding: 1rem;
-  }
+	.sort::after {
+		content: '🔎';
+		position: absolute;
+		right: 0rem;
+		top: -0.3rem;
+		bottom: 0rem;
+		color: black;
+		pointer-events: none;
+		transition: all 0s ease;
+		padding: 1rem;
+	}
 
-  .switch {
-    .switch-input {
-      display: none;
-    }
-    .switch-label {
-      position: relative;
-      display: block;
-      cursor: pointer;
-      padding: 1em;
-      border-radius: 2em;
-      clip: rect(0 0 0 0);
-      color: rgb(235, 232, 232);
-      box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.09);
-      font-family: "Nunito";
-      user-select: none;
-      background: rgb(211, 210, 210);
-      transition: background-color 200ms ease-in-out;
-    }
-    .switch-label::before {
-      content: "👆";
-      position: absolute;
-      cursor: pointer;
-      top: -2%;
-      right: 0%;
-      opacity: 0;
-      border-radius: 1rem;
-      width: 2rem;
-      height: 2rem;
-      text-align: center;
-      vertical-align: center;
-      transition: opacity 200ms ease-in-out content 300ms ease-in-out;
-    }
+	.switch {
+		.switch-input {
+			display: none;
+		}
+		.switch-label {
+			position: relative;
+			display: block;
+			cursor: pointer;
+			padding: 1em;
+			clip: rect(0 0 0 0);
+			color: rgb(51, 51, 51);
+			border-radius: 3rem;
+			box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.09);
+			font-family: 'Nunito';
+			user-select: none;
+			background: #f3f2f2;
+			transition: background-color 200ms ease-in-out;
+		}
+		.switch-label::before {
+			content: '👆';
+			position: absolute;
+			cursor: pointer;
+			top: -2%;
+			right: 0%;
+			opacity: 0;
+			border-radius: 1rem;
+			width: 2rem;
+			height: 2rem;
+			text-align: center;
+			vertical-align: center;
+			transition: opacity 200ms ease-in-out content 300ms ease-in-out;
+		}
 
-    .switch-input:checked + .switch-label {
-      background-color: #558b6e;
-    }
-    .switch-input:checked + .switch-label::before {
-      opacity: 1;
-      content: "👆";
-    }
-  }
+		.switch-input:checked + .switch-label {
+			background-color: #558b6e;
+			color: white;
+		}
+		.switch-input:checked + .switch-label::before {
+			opacity: 1;
+			content: '👆';
+		}
+	}
 }
 
 .active-sort {
-  pointer-events: all;
-  opacity: 1;
-  transform: translateY(0rem);
+	pointer-events: all;
+	opacity: 1;
+	transform: translateY(0rem);
 }
