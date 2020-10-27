@@ -1,16 +1,17 @@
 import React, { useState, useEffect } from 'react';
-import RecipeList from './recipeList';
-import EditList from './EditList';
-import SearchBar from './SearchBar';
-// import { v4 as uuidv4 } from "uuid";
-import SearchbarAPI from './SearchbarAPi';
-import RecipeAPIList from './recipeAPIList';
-import DetailsRecipeAPI from './DetailsRecipeAPI';
-import Placeholderlist from './Placeholderlist';
-import Nav from './nav';
-import './recipeAPI.css';
+import RecipeList from './Recipes_User/recipeList';
+import EditList from './Recipes_User/EditList';
+import SearchBar from './Recipes_User/SearchBar';
+import SearchbarAPI from './Spoonacular_API/SearchBar/SearchbarAPi';
+import RecipeAPIList from './Spoonacular_API/recipeAPIList';
+import DetailsRecipeAPI from './Spoonacular_API/DetailsRecipeAPI';
+import Placeholderlist from './Placeholder_Folder/Placeholderlist';
+import Saved from './Recipes_User/saved';
+import Nav from './Nav/nav';
+import './Spoonacular_API/recipeAPI.css';
 import axios from 'axios';
-const LOCAL_STORAGE_KEY = 'cookingWithReact.recipes';
+import SignUp from './auth/signUp';
+// const LOCAL_STORAGE_KEY = 'cookingWithReact.recipes';
 
 // Let's use context
 export const RecipeContext = React.createContext();
@@ -23,6 +24,7 @@ function App() {
 	const [recipes, setRecipes] = useState([]);
 	const [search, setSearch] = useState([]);
 	const [selectedRecipeID, setselectedRecipeID] = useState();
+	const [visibilityAdded, setVisibilityAdded] = useState(false);
 	const selectedRecipe = recipes.find(
 		(recipe) => recipe.id === selectedRecipeID
 	);
@@ -124,7 +126,8 @@ function App() {
 		setIDselectedRecipeAPI(null);
 	}
 
-	function handleAddRecipeAPItoSavedOnes(x) {
+	async function handleAddRecipeAPItoSavedOnes(x) {
+		// Check if the recipe is already added
 		if (recipes.find((recipe) => recipe.id === x)) {
 			return;
 		} else {
@@ -143,11 +146,55 @@ function App() {
 				instructions: recipe.analyzedInstructions[0].steps,
 				ingredients: recipe.extendedIngredients,
 			};
+
 			setRecipes([...recipes, newRecipe]);
+
+			// Add to the BackEnd
+			try {
+				axios({
+					method: 'POST',
+					url: 'http://localhost:4001/recipes',
+					data: newRecipe,
+				});
+			} catch (err) {
+				console.log(err);
+			}
+		}
+	}
+	// Editor
+
+	function handleSaveChangesAPI() {
+		try {
+			const updatedRecipe = {
+				id: selectedRecipe.id,
+				vegan: selectedRecipe.vegan,
+				vegetarian: selectedRecipe.vegetarian,
+				veryHealthy: selectedRecipe.veryHealthy,
+				veryPopular: selectedRecipe.veryPopular,
+				image: selectedRecipe.image,
+				score: selectedRecipe.score,
+				name: selectedRecipe.name,
+				time: selectedRecipe.time,
+				servings: selectedRecipe.servings,
+				instructions: selectedRecipe.instructions,
+				ingredients: selectedRecipe.ingredients,
+			};
+			axios({
+				method: 'PUT',
+				url: 'http://localhost:4001/recipes',
+				data: updatedRecipe,
+			});
+			setselectedRecipeID(null);
+			handleVisibility();
+		} catch (err) {
+			console.log(err);
 		}
 	}
 
-	// Editor
+	const handleVisibility = () => {
+		setVisibilityAdded(!visibilityAdded);
+	};
+
 	function handleSearch(searchQuery) {
 		let fileterdRecipesIDS = [];
 		const fileterdRecipes = recipes.filter(
@@ -190,15 +237,34 @@ function App() {
 		if (selectedRecipeID != null && selectedRecipeID === id) {
 			setselectedRecipeID(null);
 		}
+		try {
+			axios({
+				method: 'DELETE',
+				url: 'http://localhost:4001/recipes',
+				data: {
+					id: id,
+				},
+			});
+		} catch (ERR) {
+			console.log(ERR);
+		}
 		setRecipes(recipes.filter((recipe) => recipe.id !== id));
 	}
 
 	// Use effect work in order
 
 	useEffect(() => {
-		const recipeJSON = localStorage.getItem(LOCAL_STORAGE_KEY);
-		if (recipeJSON !== null) {
-			setRecipes(JSON.parse(recipeJSON));
+		try {
+			setLoading(true);
+			axios({
+				method: 'GET',
+				url: 'http://localhost:4001/recipes',
+			}).then((response) => {
+				setRecipes(response.data);
+			});
+		} catch (ERR) {
+			setLoading(false);
+			console.log(ERR);
 		}
 	}, []);
 
@@ -236,6 +302,7 @@ function App() {
 					setLoading(false);
 				} else {
 					setRecipesAPI(response.data.results);
+					console.log(recipesAPI);
 					setLoading(false);
 				}
 			})
@@ -261,9 +328,9 @@ function App() {
 		}
 	}, [recipes, selectedRecipeID]);
 
-	useEffect(() => {
-		localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(recipes));
-	}, [recipes]);
+	// useEffect(() => {
+	// 	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(recipes));
+	// }, [recipes]);
 
 	// Context
 	const recipeContextValue = {
@@ -271,91 +338,84 @@ function App() {
 		handleRecipeSelect,
 		handleCloseRecipeEdit,
 		handleRecipeChange,
-		recipeListOfArrays,
 		handleRecipeSelectIP,
 		handleCloseRecipeAPI,
 		handleAddRecipeAPItoSavedOnes,
 		selectedRecipeAPI,
 		recipes,
+		handleVisibility,
+		visibilityAdded,
 		handleCuisine,
 		handleDiet,
 		handlePlate,
 		handleSort,
 		handleSortDirection,
+		handleSaveChangesAPI,
 	};
 
 	return (
 		<div>
-			{!selectedRecipeID || !selectedRecipeID ? (
-				<Nav
-					handleTogglePage={handleTogglePage}
-					handleTogglePageBackToSearch={handleTogglePageBackToSearch}
-					seeMyRecipes={seeMyRecipes}
-				/>
-			) : (
-				<></>
-			)}
-			{!seeMyRecipes && (
+			<SignUp />
+
+			{false && (
 				<div>
-					<RecipeContext.Provider value={recipeContextValue}>
-						{selectedRecipeAPI && (
-							<DetailsRecipeAPI recipe={selectedRecipeAPI} />
-						)}
-						{!selectedRecipeAPI && (
-							<SearchbarAPI
-								handleApiSearch={handleApiSearch}
-								handleApiCall={handleApiCall}
+					{!selectedRecipeID && !idSelectedRecipeAPI ? (
+						<Nav
+							handleTogglePage={handleTogglePage}
+							handleTogglePageBackToSearch={handleTogglePageBackToSearch}
+							seeMyRecipes={seeMyRecipes}
+						/>
+					) : (
+						<></>
+					)}
+					{!seeMyRecipes && (
+						<div>
+							<RecipeContext.Provider value={recipeContextValue}>
+								{selectedRecipeAPI && (
+									<DetailsRecipeAPI recipe={selectedRecipeAPI} />
+								)}
+								{!selectedRecipeAPI && (
+									<SearchbarAPI
+										handleApiSearch={handleApiSearch}
+										handleApiCall={handleApiCall}
+									/>
+								)}
+								{!selectedRecipeAPI && !loading && (
+									<RecipeAPIList
+										apiRecipes={recipesAPI}
+										handleOffset={handleOffset}
+										loading={loading}
+									/>
+								)}
+								{loading && <Placeholderlist />}
+							</RecipeContext.Provider>
+						</div>
+					)}
+					{seeMyRecipes && (
+						<div>
+							<SearchBar
+								handleSearch={handleSearch}
+								selectedRecipe={selectedRecipe}
 							/>
-						)}
-						{!selectedRecipeAPI && !loading && (
-							<RecipeAPIList
-								apiRecipes={recipesAPI}
-								handleOffset={handleOffset}
-								loading={loading}
-							/>
-						)}
-						{loading && <Placeholderlist />}
-					</RecipeContext.Provider>
-				</div>
-			)}
-			{seeMyRecipes && (
-				<div>
-					<SearchBar
-						handleSearch={handleSearch}
-						selectedRecipe={selectedRecipe}
-					/>
-					<div className={'main-app'}>
-						<RecipeContext.Provider value={recipeContextValue}>
-							{!selectedRecipeID && (
-								<RecipeList
-									recipes={recipes}
-									search={search}
-									// selectedRecipe={selectedRecipe}
-								/>
-							)}
-							{selectedRecipe && <EditList recipe={selectedRecipe} />}
-						</RecipeContext.Provider>
-					</div>
-					)
+							<div className={'main-app'}>
+								<RecipeContext.Provider value={recipeContextValue}>
+									{!selectedRecipeID && (
+										<RecipeList
+											recipes={recipes}
+											search={search}
+											// selectedRecipe={selectedRecipe}
+										/>
+									)}
+									{selectedRecipe && <EditList recipe={selectedRecipe} />}
+									<Saved />
+								</RecipeContext.Provider>
+							</div>
+							)
+						</div>
+					)}
 				</div>
 			)}
 		</div>
 	);
 }
-
-const recipeListOfArrays = [
-	{
-		id: 0,
-		image:
-			'https://images.unsplash.com/photo-1499028344343-cd173ffc68a9?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1500&q=80',
-		name: 'paprikas',
-		time: 'h1 45',
-		servings: 3,
-		instructions: [{ step: 1 }, { step: 1 }, { step: 0 }, { step: 0 }],
-		ingredients: [
-			{ id: 0, name: 'peper', amount: '2kus' },
-			{ id: 1, name: 'potatoes', amount: '2kus' },
-		],
-	},
-];
 export default App;

@@ -1,11 +1,11 @@
 .filter-search-wrapper {
-	width: 80%;
+	width: 65%;
 	margin: auto;
 	height: 4vh;
 	display: flex;
 	align-items: center;
-	justify-content: center;
-	gap: 2rem;
+	justify-content: space-between;
+	gap: 3rem;
 	opacity: 0;
 	transition: all 0.5s ease;
 	transform: translateY(-4rem);
@@ -15,6 +15,7 @@
 .active {
 	pointer-events: all;
 	opacity: 1;
+	width: 65%;
 	transform: translateY(-3rem);
 }
 

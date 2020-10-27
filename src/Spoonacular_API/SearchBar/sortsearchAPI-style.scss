@@ -1,11 +1,11 @@
 .sort-wrapper {
 	display: flex;
-	width: 70%;
+	width: 65%;
 	margin: auto;
 	height: 0.5rem;
 	align-items: center;
 	justify-content: center;
-	margin-bottom: 4rem;
+	margin-bottom: 7rem;
 	margin-top: 2rem;
 	gap: 4em;
 	opacity: 0;
@@ -73,4 +73,5 @@
 	pointer-events: all;
 	opacity: 1;
 	transform: translateY(0rem);
+	width: 65%;
 }

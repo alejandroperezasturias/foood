@@ -1,18 +1,24 @@
 import React, { useContext } from 'react';
 import RecipeIngredientAdd from './recipeIngredientAdd';
-import { RecipeContext } from './App.js';
+import { RecipeContext } from '../App.js';
 import { v4 as uuidv4 } from 'uuid';
 import './editlist.scss';
 
 export default function EditList({ recipe }) {
-	const { handleCloseRecipeEdit, handleRecipeChange } = useContext(
-		RecipeContext
-	);
+	const {
+		handleCloseRecipeEdit,
+		handleRecipeChange,
+		handleSaveChangesAPI,
+	} = useContext(RecipeContext);
 
 	function handleChange(changes) {
 		//   What handleRecipeChange does is to take a new dict. Inside this
 		// dict we will find the same keys but the ...changes will override ...recipe values
 		handleRecipeChange(recipe.id, { ...recipe, ...changes });
+	}
+
+	function handleSaveChangesAPICall() {
+		handleSaveChangesAPI();
 	}
 
 	function handleIngredientChange(id, ingredient) {
@@ -133,9 +139,8 @@ export default function EditList({ recipe }) {
 
 					<div>
 						<button
-							onClick={handleCloseRecipeEdit}
+							onClick={handleSaveChangesAPICall}
 							className="btn btn--save"
-							type="submit"
 						>
 							Save
 						</button>
