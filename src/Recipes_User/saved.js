@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useContext } from 'react';
 import { RecipeContext } from '../App.js';
 import './saved.scss';
 
@@ -12,7 +12,12 @@ export default function Saved() {
 			onClick={handleVisibility}
 		>
 			<div className={'saved-box'}>
-				<h3>Saved &#128064;</h3>
+				<h3>
+					Saved{' '}
+					<span role="img" aria-label="emoji">
+						&#128064;
+					</span>
+				</h3>
 				<button onClick={handleVisibility}>&times;</button>
 			</div>
 		</div>

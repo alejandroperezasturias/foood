@@ -4,30 +4,28 @@ import './signUp.scss';
 import { RecipeContext } from '../App';
 import { useHistory, Link } from 'react-router-dom';
 
-export default function SignUp() {
+export default function LogIn() {
 	const { handleSetuser } = useContext(RecipeContext);
 	const emailRef = useRef();
 	const passwordRef = useRef();
-	const nameRef = useRef();
-	const passwordConfirmationRef = useRef();
 	const [error, setError] = useState();
 	const [loading, setLoading] = useState(false);
 	const history = useHistory();
 
-	const signupUser = async () => {
+	const logInUser = async () => {
 		setLoading(true);
 		await axios({
 			method: 'POST',
-			url: 'http://localhost:4001/auth/signup',
+			url: 'http://localhost:4001/auth/login',
 			data: {
-				name: nameRef.current.value,
 				email: emailRef.current.value,
-				password: passwordConfirmationRef.current.value,
+				password: passwordRef.current.value,
 			},
 		})
 			.then((response) => {
 				setLoading(false);
-				history.push('/logIn');
+				handleSetuser(response.data);
+				history.push('/findRecipes');
 			})
 			.catch((e) => {
 				setLoading(false);
@@ -35,24 +33,22 @@ export default function SignUp() {
 			});
 	};
 
-	async function handleSignUp(e) {
+	async function handleLogIn(e) {
 		e.preventDefault();
-		if (passwordRef.current.value !== passwordConfirmationRef.current.value) {
-			return setError('Passwords do not match');
-		}
+
 		try {
-			await signupUser();
+			await logInUser();
 		} catch {
-			setError('Failed to create an user');
+			setError('Failed to LogIn');
 			setLoading(false);
 		}
 	}
 	return (
 		<div className="form-wrapper">
 			<h1 className="logo">La Despensa</h1>
-			<form onSubmit={handleSignUp}>
+			<form onSubmit={handleLogIn}>
 				<div>
-					<h1>Sign Up</h1>
+					<h1>Log In</h1>
 				</div>
 				{error && (
 					<div className={'Password-error'}>
@@ -60,16 +56,6 @@ export default function SignUp() {
 					</div>
 				)}
 
-				<div>
-					<label htmlFor="name">name</label>
-					<input
-						ref={nameRef}
-						type="text"
-						id="name"
-						autoComplete="true"
-						required
-					></input>
-				</div>
 				<div>
 					<label htmlFor="email">email</label>
 					<input
@@ -91,20 +77,10 @@ export default function SignUp() {
 					></input>
 				</div>
 				<div>
-					<label htmlFor="password-confirmation">Password Confirmation</label>
-					<input
-						ref={passwordConfirmationRef}
-						type="password"
-						id="password-confirmation"
-						autoComplete="true"
-						required
-					></input>
-				</div>
-				<div>
-					<button disabled={loading}>Sign Up</button>
+					<button disabled={loading}>Log In</button>
 				</div>
 				<div className={'to-login'}>
-					Already an user? <Link to="/logIn">Log In</Link>
+					Already an user? <Link to="/signUp">Sign Up</Link>
 				</div>
 			</form>
 		</div>

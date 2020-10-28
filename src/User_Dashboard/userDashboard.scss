@@ -1,0 +1,55 @@
+.user-dashboard {
+	height: 90vh;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: auto;
+	.user-wrapper {
+		background-color: #cdbdce;
+		width: 65%;
+		border-radius: 1rem;
+		gap: 0rem;
+		text-align: center;
+		box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.09);
+		.user-wrapper-component {
+			flex: 1;
+			padding: 1.5rem;
+
+			h3 {
+				color: #292929;
+				font-size: 1.7rem;
+				font-weight: 400;
+			}
+		}
+
+		.image {
+			text-align: center;
+			margin: 1rem 0rem;
+			position: relative;
+
+			img {
+				border-radius: 50%;
+				max-width: 40%;
+				max-height: 40%;
+				z-index: 2;
+				box-shadow: 0px 0px 0px 9px #16bac5, 0px 0px 5px 9px #16bac5;
+			}
+		}
+
+		.button {
+			margin-bottom: 2rem;
+			button {
+				padding: 1em 2em;
+				font-size: 1rem;
+				background: #f04e4e;
+				color: white;
+				transition: background 200ms;
+				z-index: 99;
+				cursor: pointer;
+				&:hover {
+					background: rgb(240, 100, 100);
+				}
+			}
+		}
+	}
+}

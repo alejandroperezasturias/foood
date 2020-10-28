@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import RecipeList from './Recipes_User/recipeList';
-import EditList from './Recipes_User/EditList';
-import SearchBar from './Recipes_User/SearchBar';
-import SearchbarAPI from './Spoonacular_API/SearchBar/SearchbarAPi';
-import RecipeAPIList from './Spoonacular_API/recipeAPIList';
-import DetailsRecipeAPI from './Spoonacular_API/DetailsRecipeAPI';
-import Placeholderlist from './Placeholder_Folder/Placeholderlist';
-import Saved from './Recipes_User/saved';
 import Nav from './Nav/nav';
-import './Spoonacular_API/recipeAPI.css';
 import axios from 'axios';
 import SignUp from './auth/signUp';
-// const LOCAL_STORAGE_KEY = 'cookingWithReact.recipes';
+import LogIn from './auth/logIn';
+import ApiSearchLandingPage from './Spoonacular_API/ApiSearchLandingPage';
+import RecipesLandingPage from './Recipes_User/RecipesLandingPage';
+import PrivateRoute from './PrivateRoute';
+import UserDashboard from './User_Dashboard/userDashboard';
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 
 // Let's use context
 export const RecipeContext = React.createContext();
 
 function App() {
-	// NAV
-	const [seeMyRecipes, setSeeMyRecipes] = useState(false);
+	// AUTh
+	const [user, Setuser] = useState('');
+	function handleSetuser(x) {
+		Setuser(x);
+	}
+
+	function handleLogOut() {
+		Setuser('');
+	}
 
 	//  EDITOR
 	const [recipes, setRecipes] = useState([]);
@@ -28,7 +31,6 @@ function App() {
 	const selectedRecipe = recipes.find(
 		(recipe) => recipe.id === selectedRecipeID
 	);
-
 	// API
 	const [query, setQuery] = useState({
 		query: '',
@@ -86,20 +88,6 @@ function App() {
 		});
 	}
 
-	function handleTogglePage() {
-		if (seeMyRecipes === false) {
-			setSeeMyRecipes(!seeMyRecipes);
-		} else {
-			return;
-		}
-	}
-
-	function handleTogglePageBackToSearch() {
-		if (seeMyRecipes === true) {
-			setSeeMyRecipes(!seeMyRecipes);
-		}
-	}
-
 	// API
 
 	function handleOffset() {
@@ -155,6 +143,7 @@ function App() {
 					method: 'POST',
 					url: 'http://localhost:4001/recipes',
 					data: newRecipe,
+					headers: { 'auth-token': user },
 				});
 			} catch (err) {
 				console.log(err);
@@ -183,6 +172,7 @@ function App() {
 				method: 'PUT',
 				url: 'http://localhost:4001/recipes',
 				data: updatedRecipe,
+				headers: { 'auth-token': user },
 			});
 			setselectedRecipeID(null);
 			handleVisibility();
@@ -244,6 +234,7 @@ function App() {
 				data: {
 					id: id,
 				},
+				headers: { 'auth-token': user },
 			});
 		} catch (ERR) {
 			console.log(ERR);
@@ -259,14 +250,16 @@ function App() {
 			axios({
 				method: 'GET',
 				url: 'http://localhost:4001/recipes',
+				data: {
+					userID: user,
+				},
+				headers: { 'auth-token': user },
 			}).then((response) => {
 				setRecipes(response.data);
+				setLoading(false);
 			});
-		} catch (ERR) {
-			setLoading(false);
-			console.log(ERR);
-		}
-	}, []);
+		} catch (ERR) {}
+	}, [user]);
 
 	// Api Call
 
@@ -300,10 +293,12 @@ function App() {
 						return [...prevState, flatarr].flat(Infinity);
 					});
 					setLoading(false);
+					// handleApiSearch('');
 				} else {
 					setRecipesAPI(response.data.results);
 					console.log(recipesAPI);
 					setLoading(false);
+					// handleApiSearch('');
 				}
 			})
 			.catch((e) => {
@@ -315,7 +310,7 @@ function App() {
 		return () => {
 			cancel();
 		};
-	}, [callAPI, offSet]);
+	}, [callAPI, offSet, user]);
 
 	useEffect(() => {
 		// When load set the search equal to all the recipes pulled from LocalStorage
@@ -328,10 +323,6 @@ function App() {
 		}
 	}, [recipes, selectedRecipeID]);
 
-	// useEffect(() => {
-	// 	localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(recipes));
-	// }, [recipes]);
-
 	// Context
 	const recipeContextValue = {
 		handleRecipeDelete,
@@ -342,6 +333,7 @@ function App() {
 		handleCloseRecipeAPI,
 		handleAddRecipeAPItoSavedOnes,
 		selectedRecipeAPI,
+		selectedRecipeID,
 		recipes,
 		handleVisibility,
 		visibilityAdded,
@@ -351,70 +343,38 @@ function App() {
 		handleSort,
 		handleSortDirection,
 		handleSaveChangesAPI,
+		recipesAPI,
+		handleApiCall,
+		handleApiSearch,
+		handleOffset,
+		search,
+		handleSearch,
+		handleSetuser,
+		user,
+		handleLogOut,
 	};
 
 	return (
 		<div>
-			<SignUp />
-
-			{false && (
-				<div>
+			<Router>
+				<RecipeContext.Provider value={recipeContextValue}>
 					{!selectedRecipeID && !idSelectedRecipeAPI ? (
-						<Nav
-							handleTogglePage={handleTogglePage}
-							handleTogglePageBackToSearch={handleTogglePageBackToSearch}
-							seeMyRecipes={seeMyRecipes}
-						/>
+						<PrivateRoute component={Nav} />
 					) : (
 						<></>
 					)}
-					{!seeMyRecipes && (
-						<div>
-							<RecipeContext.Provider value={recipeContextValue}>
-								{selectedRecipeAPI && (
-									<DetailsRecipeAPI recipe={selectedRecipeAPI} />
-								)}
-								{!selectedRecipeAPI && (
-									<SearchbarAPI
-										handleApiSearch={handleApiSearch}
-										handleApiCall={handleApiCall}
-									/>
-								)}
-								{!selectedRecipeAPI && !loading && (
-									<RecipeAPIList
-										apiRecipes={recipesAPI}
-										handleOffset={handleOffset}
-										loading={loading}
-									/>
-								)}
-								{loading && <Placeholderlist />}
-							</RecipeContext.Provider>
-						</div>
-					)}
-					{seeMyRecipes && (
-						<div>
-							<SearchBar
-								handleSearch={handleSearch}
-								selectedRecipe={selectedRecipe}
-							/>
-							<div className={'main-app'}>
-								<RecipeContext.Provider value={recipeContextValue}>
-									{!selectedRecipeID && (
-										<RecipeList
-											recipes={recipes}
-											search={search}
-											// selectedRecipe={selectedRecipe}
-										/>
-									)}
-									{selectedRecipe && <EditList recipe={selectedRecipe} />}
-									<Saved />
-								</RecipeContext.Provider>
-							</div>
-							)
-						</div>
-					)}
-				</div>
-			)}
+					<Switch>
+						<PrivateRoute
+							path="/findRecipes"
+							component={ApiSearchLandingPage}
+						/>
+						<PrivateRoute path="/myRecipes" component={RecipesLandingPage} />
+						<PrivateRoute path="/dashboard" component={UserDashboard} />
+						<Route path="/signUp" component={SignUp} />
+						<Route path="/logIn" component={LogIn} />
+					</Switch>
+				</RecipeContext.Provider>
+			</Router>
 		</div>
 	);
 }

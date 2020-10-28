@@ -22,22 +22,22 @@
 		border-radius: 1rem;
 		box-shadow: 0px 10px 10px rgba(0, 0, 0, 0.096);
 
+		.to-login {
+			// margin-top: 3rem;
+			font-size: 1rem;
+		}
+
 		.Password-error {
 			padding: 1rem 1rem;
 			background: rgb(248, 114, 114);
 			border-radius: 1rem;
 			margin-bottom: 0.5rem;
-			opacity: 0;
 			transition: all 0.4sec ease-in;
 			h4 {
 				color: white;
 			}
 		}
 
-		.Password-error,
-		.active {
-			opacity: 1;
-		}
 		h1 {
 			margin: 1rem 0rem;
 			font-size: 2.2rem;
@@ -45,7 +45,8 @@
 		div {
 			display: flex;
 			flex-direction: column;
-			gap: 0.4rem;
+			gap: 1rem;
+
 			input {
 				margin-bottom: 1rem;
 				max-width: 30rem;
@@ -59,7 +60,8 @@
 				background: #1d3557;
 				color: whitesmoke;
 				transition: background 250ms;
-				margin-top: 3rem;
+				margin: 1rem 0rem;
+
 				&:hover {
 					background: #2e4057;
 				}
