@@ -3,13 +3,20 @@ import { RecipeContext } from '../App';
 import { useHistory } from 'react-router-dom';
 import './userDashboard.scss';
 import axios from 'axios';
+import panda from '../avatar-images/debbie-molle-6DSID8Ey9-U-unsplash.jpg';
+import pug from '../avatar-images/toshi-lySzv_cqxH8-unsplash.jpg';
+import peace from '../avatar-images/peace.jpeg';
+import moon from '../avatar-images/moon.jpeg';
 
 export default function UserDashboard() {
-	const { user, handleLogOut, handleApiSearch } = useContext(RecipeContext);
+	const { user, handleLogOut, handleApiCall, setQuery } = useContext(
+		RecipeContext
+	);
 	const [loading, setLoading] = useState(false);
 	const [userPublicInfo, setuserPublicInfo] = useState({});
 	const [error, setError] = useState();
 	const history = useHistory();
+	const [userEmoji, setUserEmoji] = useState(pug);
 
 	const getUserInfo = async () => {
 		setLoading(true);
@@ -31,8 +38,14 @@ export default function UserDashboard() {
 	const logOut = () => {
 		handleLogOut();
 		// Setting the search to null
-		handleApiSearch('');
+		setQuery({ query: '', cuisine: '', diet: '', plate: '' });
+		handleApiCall();
 		history.push('./logIn');
+	};
+
+	const handleSelectUserEmoji = (e) => {
+		setUserEmoji(e);
+		console.log(e);
 	};
 
 	useEffect(() => {
@@ -47,9 +60,43 @@ export default function UserDashboard() {
 				<div className={'user-wrapper'}>
 					<div className={'user-wrapper-component image'}>
 						<img
-							src="https://images.unsplash.com/photo-1600813390845-f35b9d49931a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1440&q=80"
-							alt="user-image"
+							className={'avatar-image-chosen'}
+							src={userEmoji}
+							alt="user"
 						></img>
+						<div className="avatar-chose-title">
+							<h4 className>Chose Avatar</h4>
+						</div>
+						<div className={'avatar-wrapper'}>
+							<button
+								value={pug}
+								className={'avatar-image'}
+								onClick={(e) => handleSelectUserEmoji(e.target.value)}
+							>
+								<img src={pug} alt="pug"></img>
+							</button>
+							<button
+								className={'avatar-image'}
+								value={peace}
+								onClick={(e) => handleSelectUserEmoji(e.target.value)}
+							>
+								<img src={peace} alt="peace"></img>
+							</button>
+							<button
+								className={'avatar-image'}
+								value={panda}
+								onClick={(e) => handleSelectUserEmoji(e.target.value)}
+							>
+								<img src={panda} alt="panda"></img>
+							</button>
+							<button
+								className={'avatar-image'}
+								value={moon}
+								onClick={(e) => handleSelectUserEmoji(e.target.value)}
+							>
+								<img src={moon} alt="moon"></img>
+							</button>
+						</div>
 					</div>
 					<div className={'user-wrapper-component name'}>
 						<h3>{userPublicInfo.name}</h3>

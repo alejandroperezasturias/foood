@@ -1,11 +1,9 @@
-import React, { useRef, useState, useContext } from 'react';
+import React, { useRef, useState } from 'react';
 import axios from 'axios';
 import './signUp.scss';
-import { RecipeContext } from '../App';
 import { useHistory, Link } from 'react-router-dom';
 
 export default function SignUp() {
-	const { handleSetuser } = useContext(RecipeContext);
 	const emailRef = useRef();
 	const passwordRef = useRef();
 	const nameRef = useRef();

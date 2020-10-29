@@ -14,28 +14,49 @@
 		.user-wrapper-component {
 			flex: 1;
 			padding: 1.5rem;
-
 			h3 {
 				color: #292929;
 				font-size: 1.7rem;
 				font-weight: 400;
 			}
 		}
-
 		.image {
 			text-align: center;
 			margin: 1rem 0rem;
 			position: relative;
-
-			img {
+			.avatar-image-chosen {
 				border-radius: 50%;
 				max-width: 40%;
 				max-height: 40%;
 				z-index: 2;
 				box-shadow: 0px 0px 0px 9px #16bac5, 0px 0px 5px 9px #16bac5;
 			}
+			.avatar-chose-title {
+				padding-top: 3rem;
+				h4 {
+					color: #292929;
+					font-size: 1.4rem;
+					font-weight: 400;
+				}
+			}
+			.avatar-wrapper {
+				display: flex;
+				margin-top: 2rem;
+				.avatar-image {
+					cursor: pointer;
+					flex: 1;
+					width: 30%;
+					height: 30%;
+					background: transparent;
+					img {
+						pointer-events: none;
+						max-width: 50%;
+						max-height: 50%;
+						border-radius: 50%;
+					}
+				}
+			}
 		}
-
 		.button {
 			margin-bottom: 2rem;
 			button {

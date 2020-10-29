@@ -293,12 +293,11 @@ function App() {
 						return [...prevState, flatarr].flat(Infinity);
 					});
 					setLoading(false);
-					// handleApiSearch('');
+					handleApiSearch('');
 				} else {
 					setRecipesAPI(response.data.results);
-					console.log(recipesAPI);
 					setLoading(false);
-					// handleApiSearch('');
+					handleApiSearch('');
 				}
 			})
 			.catch((e) => {
@@ -332,6 +331,7 @@ function App() {
 		handleRecipeSelectIP,
 		handleCloseRecipeAPI,
 		handleAddRecipeAPItoSavedOnes,
+		selectedRecipe,
 		selectedRecipeAPI,
 		selectedRecipeID,
 		recipes,
@@ -352,6 +352,8 @@ function App() {
 		handleSetuser,
 		user,
 		handleLogOut,
+		setQuery,
+		loading,
 	};
 
 	return (

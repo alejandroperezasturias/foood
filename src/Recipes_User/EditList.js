@@ -18,7 +18,7 @@ export default function EditList({ recipe }) {
 	}
 
 	function handleSaveChangesAPICall() {
-		handleSaveChangesAPI();
+		handleSaveChangesAPI(recipe.id);
 	}
 
 	function handleIngredientChange(id, ingredient) {
