@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './nav.scss';
 import { Link } from 'react-router-dom';
+import { RecipeContext } from '../App';
 
 export default function Nav() {
+	const { userEmoji } = useContext(RecipeContext);
 	return (
 		<div className={'nav'}>
 			<div className={'nav-wrapper'}>
@@ -31,7 +33,7 @@ export default function Nav() {
 					>
 						<img
 							className="avatar-image-chosen"
-							src="https://images.unsplash.com/photo-1600813390845-f35b9d49931a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1440&q=80"
+							src={userEmoji}
 							alt="user"
 						></img>
 						<h1>My User</h1>

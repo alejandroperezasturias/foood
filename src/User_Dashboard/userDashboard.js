@@ -9,14 +9,18 @@ import peace from '../avatar-images/peace.jpeg';
 import moon from '../avatar-images/moon.jpeg';
 
 export default function UserDashboard() {
-	const { user, handleLogOut, handleApiCall, setQuery } = useContext(
-		RecipeContext
-	);
+	const {
+		user,
+		handleLogOut,
+		handleApiCall,
+		setQuery,
+		userEmoji,
+		setUserEmoji,
+	} = useContext(RecipeContext);
 	const [loading, setLoading] = useState(false);
 	const [userPublicInfo, setuserPublicInfo] = useState({});
 	const [error, setError] = useState();
 	const history = useHistory();
-	const [userEmoji, setUserEmoji] = useState(pug);
 
 	const getUserInfo = async () => {
 		setLoading(true);
@@ -45,7 +49,6 @@ export default function UserDashboard() {
 
 	const handleSelectUserEmoji = (e) => {
 		setUserEmoji(e);
-		console.log(e);
 	};
 
 	useEffect(() => {
@@ -65,7 +68,7 @@ export default function UserDashboard() {
 							alt="user"
 						></img>
 						<div className="avatar-chose-title">
-							<h4 className>Chose Avatar</h4>
+							<h4>Chose Avatar</h4>
 						</div>
 						<div className={'avatar-wrapper'}>
 							<button

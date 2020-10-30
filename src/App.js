@@ -8,12 +8,16 @@ import RecipesLandingPage from './Recipes_User/RecipesLandingPage';
 import PrivateRoute from './PrivateRoute';
 import UserDashboard from './User_Dashboard/userDashboard';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import panda from './avatar-images/debbie-molle-6DSID8Ey9-U-unsplash.jpg';
+import pug from './avatar-images/toshi-lySzv_cqxH8-unsplash.jpg';
+import peace from './avatar-images/peace.jpeg';
+import moon from './avatar-images/moon.jpeg';
 
 // Let's use context
 export const RecipeContext = React.createContext();
 
 function App() {
-	// AUTh
+	// AUTH
 	const [user, Setuser] = useState('');
 	function handleSetuser(x) {
 		Setuser(x);
@@ -22,7 +26,8 @@ function App() {
 	function handleLogOut() {
 		Setuser('');
 	}
-
+	// User DSH
+	const [userEmoji, setUserEmoji] = useState(pug);
 	//  EDITOR
 	const [recipes, setRecipes] = useState([]);
 	const [search, setSearch] = useState([]);
@@ -174,6 +179,7 @@ function App() {
 				data: updatedRecipe,
 				headers: { 'auth-token': user },
 			});
+			console.log(updatedRecipe);
 			setselectedRecipeID(null);
 			handleVisibility();
 		} catch (err) {
@@ -250,9 +256,6 @@ function App() {
 			axios({
 				method: 'GET',
 				url: 'http://localhost:4001/recipes',
-				data: {
-					userID: user,
-				},
 				headers: { 'auth-token': user },
 			}).then((response) => {
 				setRecipes(response.data);
@@ -354,6 +357,8 @@ function App() {
 		handleLogOut,
 		setQuery,
 		loading,
+		setUserEmoji,
+		userEmoji,
 	};
 
 	return (

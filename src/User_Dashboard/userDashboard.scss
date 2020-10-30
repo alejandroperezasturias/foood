@@ -1,14 +1,16 @@
 .user-dashboard {
-	height: 90vh;
+	height: 80vh;
+	margin-top: 10rem;
 	display: flex;
 	align-items: center;
 	justify-content: center;
-	margin: auto;
+	// margin: auto;
 	.user-wrapper {
 		background-color: #cdbdce;
 		width: 65%;
 		border-radius: 1rem;
 		gap: 0rem;
+		max-height: 70rem;
 		text-align: center;
 		box-shadow: 10px 10px 30px rgba(0, 0, 0, 0.09);
 		.user-wrapper-component {
