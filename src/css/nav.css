@@ -1,0 +1,84 @@
+.nav {
+	width: 100%;
+}
+
+.nav-wrapper {
+	min-height: 10vh;
+	width: 65%;
+	margin: auto;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+.logo-wrapper {
+	flex: 1;
+}
+
+.logo-wrapper .logo-nav {
+	font-size: var(--fs-big);
+}
+
+.nav-menu {
+	flex: 2;
+	display: flex;
+	justify-content: space-evenly;
+	align-items: center;
+}
+
+.image-component,
+.search-component,
+.my-recipes-component {
+	flex: 1;
+}
+
+.nav-menu h1 {
+	cursor: pointer;
+	font-size: var(--fs-normal);
+	color: var(--clr-base-400);
+	text-align: center;
+	position: relative;
+}
+
+.nav-menu h1::after {
+	content: '';
+	display: block;
+	bottom: -10px;
+	height: 0.2rem;
+	width: 100%;
+	transform: scale(0, 1);
+	background: var(--clr-base-400);
+	border-radius: 100vw;
+	transition: all 250ms ease-in-out;
+}
+
+.nav-menu .image-component {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	text-align: center;
+	gap: 0.3rem;
+}
+
+.nav-menu .image-component .avatar-image-chosen {
+	border-radius: 50%;
+	max-width: 15%;
+	max-height: 15%;
+	z-index: 2;
+}
+
+.nav-menu h1:hover::after {
+	transform: scale(0.4, 1);
+}
+
+@media only screen and (min-width: 600px) {
+	.logo-wrapper .logo-nav {
+		font-size: 2.3rem;
+	}
+	.nav-menu h1 {
+		font-size: var(--fs-big);
+	}
+	.nav-menu .logo-nav .logo {
+		font-size: var(--fs-very-big);
+	}
+}

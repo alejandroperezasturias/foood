@@ -1,0 +1,34 @@
+.sign-up-component {
+	min-height: 100vh;
+	width: 60%;
+	margin: auto;
+	display: flex;
+	justify-content: center;
+	flex-direction: column;
+	text-align: center;
+}
+
+.form {
+	padding: 5rem 2rem;
+	border-radius: 1rem;
+	box-shadow: var(--shadow);
+}
+.form > div {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: center;
+}
+.form button {
+	font-size: 1.3em;
+}
+
+.log-in label {
+	color: var(--clr-base-400);
+}
+
+@media only screen and (min-width: 600px) {
+	.sign-up-component {
+		width: 40%;
+	}
+}

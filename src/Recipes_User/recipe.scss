@@ -22,7 +22,7 @@
 		align-items: center;
 		justify-content: center;
 		position: relative;
-		// flex-direction: column;
+		flex-direction: column;
 
 		.my-recipe-image-wrapper {
 			flex: 1;
@@ -81,32 +81,32 @@
 			gap: 2rem;
 			margin: 2rem 0rem;
 
-			.btn-delete {
-				flex: 1;
-				background: rgb(240, 78, 78);
-				font-size: 1rem;
-				width: 6rem;
-				padding: 0.5em 1em;
-				color: white;
-				transition: background 200ms;
+			// .btn-delete {
+			// 	flex: 1;
+			// 	background: rgb(240, 78, 78);
+			// 	font-size: 1rem;
+			// 	width: 6rem;
+			// 	padding: 0.5em 1em;
+			// 	color: white;
+			// 	transition: background 200ms;
 
-				&:hover {
-					background: rgb(240, 100, 100);
-				}
-			}
-			.btn-edit {
-				flex: 1;
-				font-size: 1rem;
-				width: 6rem;
-				padding: 0.5em 1em;
-				background: #1d3557;
-				color: whitesmoke;
-				transition: background 250ms;
+			// 	&:hover {
+			// 		background: rgb(240, 100, 100);
+			// 	}
+			// }
+			// .btn-edit {
+			// 	flex: 1;
+			// 	font-size: 1rem;
+			// 	width: 6rem;
+			// 	padding: 0.5em 1em;
+			// 	background: #1d3557;
+			// 	color: whitesmoke;
+			// 	transition: background 250ms;
 
-				&:hover {
-					background: #2e4057;
-				}
-			}
+			// 	&:hover {
+			// 		background: #2e4057;
+			// 	}
+			// }
 		}
 	}
 }

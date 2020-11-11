@@ -12,7 +12,7 @@ import panda from './avatar-images/debbie-molle-6DSID8Ey9-U-unsplash.jpg';
 import pug from './avatar-images/toshi-lySzv_cqxH8-unsplash.jpg';
 import peace from './avatar-images/peace.jpeg';
 import moon from './avatar-images/moon.jpeg';
-
+import './css/app.css';
 // Let's use context
 export const RecipeContext = React.createContext();
 
@@ -22,12 +22,16 @@ function App() {
 	function handleSetuser(x) {
 		Setuser(x);
 	}
-
 	function handleLogOut() {
 		Setuser('');
 	}
+
 	// User DSH
-	const [userEmoji, setUserEmoji] = useState(pug);
+	// Create the dic as const. Is inmutable, but we can push and shift without issue. push => userAvatars['x'] = 'x'
+	const userAvatars = { pug: pug, peace: peace, panda: panda, moon: moon };
+
+	const [userEmoji, setUserEmoji] = useState(userAvatars['pug']);
+
 	//  EDITOR
 	const [recipes, setRecipes] = useState([]);
 	const [search, setSearch] = useState([]);
@@ -179,7 +183,6 @@ function App() {
 				data: updatedRecipe,
 				headers: { 'auth-token': user },
 			});
-			console.log(updatedRecipe);
 			setselectedRecipeID(null);
 			handleVisibility();
 		} catch (err) {
@@ -251,17 +254,38 @@ function App() {
 	// Use effect work in order
 
 	useEffect(() => {
-		try {
-			setLoading(true);
-			axios({
-				method: 'GET',
-				url: 'http://localhost:4001/recipes',
-				headers: { 'auth-token': user },
-			}).then((response) => {
-				setRecipes(response.data);
+		if (user) {
+			try {
+				setLoading(true);
+				axios({
+					method: 'GET',
+					url: 'http://localhost:4001/recipes',
+					headers: { 'auth-token': user },
+				})
+					.then((response) => {
+						setRecipes(response.data);
+					})
+					.catch((e) => {
+						console.log(e);
+					});
+
+				axios({
+					method: 'GET',
+					url: 'http://localhost:4001/auth/userInfo',
+					headers: { 'auth-token': user },
+				})
+					.then((response) => {
+						setUserEmoji(response.data.avatar);
+					})
+					.catch((e) => {
+						console.log(e);
+					});
+
 				setLoading(false);
-			});
-		} catch (ERR) {}
+			} catch (ERR) {
+				console.log(ERR.message);
+			}
+		}
 	}, [user]);
 
 	// Api Call
@@ -291,6 +315,7 @@ function App() {
 		})
 			.then((response) => {
 				if (offSet > 0) {
+					// Let varibale is only available to this scope. Let is a blocl-scoped variable
 					let flatarr = response.data.results.flat(Infinity);
 					setRecipesAPI((prevState) => {
 						return [...prevState, flatarr].flat(Infinity);
@@ -359,6 +384,7 @@ function App() {
 		loading,
 		setUserEmoji,
 		userEmoji,
+		userAvatars,
 	};
 
 	return (

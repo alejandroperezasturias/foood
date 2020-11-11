@@ -3,10 +3,6 @@ import { RecipeContext } from '../App';
 import { useHistory } from 'react-router-dom';
 import './userDashboard.scss';
 import axios from 'axios';
-import panda from '../avatar-images/debbie-molle-6DSID8Ey9-U-unsplash.jpg';
-import pug from '../avatar-images/toshi-lySzv_cqxH8-unsplash.jpg';
-import peace from '../avatar-images/peace.jpeg';
-import moon from '../avatar-images/moon.jpeg';
 
 export default function UserDashboard() {
 	const {
@@ -16,8 +12,10 @@ export default function UserDashboard() {
 		setQuery,
 		userEmoji,
 		setUserEmoji,
+		userAvatars,
 	} = useContext(RecipeContext);
 	const [loading, setLoading] = useState(false);
+	const [avatarLoading, setAvatarLoading] = useState(false);
 	const [userPublicInfo, setuserPublicInfo] = useState({});
 	const [error, setError] = useState();
 	const history = useHistory();
@@ -39,6 +37,25 @@ export default function UserDashboard() {
 			});
 	};
 
+	const updateAvatar = async (avatar) => {
+		setAvatarLoading(true);
+		await axios({
+			method: 'PUT',
+			url: 'http://localhost:4001/auth/userInfo/update',
+			headers: { 'auth-token': user },
+			data: {
+				avatar: avatar,
+			},
+		})
+			.then(() => {
+				setAvatarLoading(false);
+			})
+			.catch((e) => {
+				setAvatarLoading(false);
+				setError(e.response.data);
+			});
+	};
+
 	const logOut = () => {
 		handleLogOut();
 		// Setting the search to null
@@ -47,8 +64,9 @@ export default function UserDashboard() {
 		history.push('./logIn');
 	};
 
-	const handleSelectUserEmoji = (e) => {
-		setUserEmoji(e);
+	const handleSelectUserEmoji = async (e) => {
+		setUserEmoji(userAvatars[e]);
+		updateAvatar(userAvatars[e]);
 	};
 
 	useEffect(() => {
@@ -72,32 +90,36 @@ export default function UserDashboard() {
 						</div>
 						<div className={'avatar-wrapper'}>
 							<button
-								value={pug}
+								disabled={avatarLoading}
+								value={'pug'}
 								className={'avatar-image'}
 								onClick={(e) => handleSelectUserEmoji(e.target.value)}
 							>
-								<img src={pug} alt="pug"></img>
+								<img src={userAvatars['pug']} alt="pug"></img>
 							</button>
 							<button
+								disabled={avatarLoading}
 								className={'avatar-image'}
-								value={peace}
+								value={'peace'}
 								onClick={(e) => handleSelectUserEmoji(e.target.value)}
 							>
-								<img src={peace} alt="peace"></img>
+								<img src={userAvatars['peace']} alt="peace"></img>
 							</button>
 							<button
+								disabled={avatarLoading}
 								className={'avatar-image'}
-								value={panda}
+								value={'panda'}
 								onClick={(e) => handleSelectUserEmoji(e.target.value)}
 							>
-								<img src={panda} alt="panda"></img>
+								<img src={userAvatars['panda']} alt="panda"></img>
 							</button>
 							<button
+								disabled={avatarLoading}
 								className={'avatar-image'}
-								value={moon}
+								value={'moon'}
 								onClick={(e) => handleSelectUserEmoji(e.target.value)}
 							>
-								<img src={moon} alt="moon"></img>
+								<img src={userAvatars['moon']} alt="moon"></img>
 							</button>
 						</div>
 					</div>

@@ -11,7 +11,6 @@ export default function SearcharAPI({ handleApiCall, handleApiSearch }) {
 	}
 	function handleSortInView() {
 		setsortInView(!sortInView);
-		console.log('Hi');
 	}
 
 	return (

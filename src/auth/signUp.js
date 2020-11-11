@@ -1,6 +1,5 @@
 import React, { useRef, useState } from 'react';
 import axios from 'axios';
-import './signUp.scss';
 import { useHistory, Link } from 'react-router-dom';
 
 export default function SignUp() {
@@ -23,7 +22,7 @@ export default function SignUp() {
 				password: passwordConfirmationRef.current.value,
 			},
 		})
-			.then((response) => {
+			.then(() => {
 				setLoading(false);
 				history.push('/logIn');
 			})
@@ -46,19 +45,18 @@ export default function SignUp() {
 		}
 	}
 	return (
-		<div className="form-wrapper">
-			<h1 className="logo">La Despensa</h1>
-			<form onSubmit={handleSignUp}>
+		<div className="sign-up-component flow-content">
+			<h1 className="logo logo-sign-up">La Despensa</h1>
+			<form onSubmit={handleSignUp} className={'form sign-up flow-content bg-accent-pink'}>
 				<div>
 					<h1>Sign Up</h1>
 				</div>
 				{error && (
-					<div className={'Password-error'}>
+					<div className={'error'}>
 						<h4>{error}</h4>
 					</div>
 				)}
-
-				<div>
+				<div >
 					<label htmlFor="name">name</label>
 					<input
 						ref={nameRef}
@@ -68,7 +66,7 @@ export default function SignUp() {
 						required
 					></input>
 				</div>
-				<div>
+				<div >
 					<label htmlFor="email">email</label>
 					<input
 						ref={emailRef}
@@ -78,7 +76,7 @@ export default function SignUp() {
 						required
 					></input>
 				</div>
-				<div>
+				<div >
 					<label htmlFor="password">password</label>
 					<input
 						ref={passwordRef}

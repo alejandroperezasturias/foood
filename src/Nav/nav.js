@@ -1,17 +1,17 @@
 import React, { useContext } from 'react';
-import './nav.scss';
+// import './nav.scss';
 import { Link } from 'react-router-dom';
 import { RecipeContext } from '../App';
 
 export default function Nav() {
 	const { userEmoji } = useContext(RecipeContext);
 	return (
-		<div className={'nav'}>
+		<div className={'nav bg-accent-blue'}>
 			<div className={'nav-wrapper'}>
 				<div className={'logo-wrapper'}>
-					<h3 className={'logo'}>La Despensa</h3>
+					<h3 className={'logo logo-nav'}>La Despensa</h3>
 				</div>
-				<div className={'nav-menu'}>
+				<div className={'nav-menu bg-accent-blue'}>
 					<Link
 						to={'/findRecipes'}
 						style={{ textDecoration: 'none' }}

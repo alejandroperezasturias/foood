@@ -1,6 +1,5 @@
 import React, { useRef, useState, useContext } from 'react';
 import axios from 'axios';
-import './signUp.scss';
 import { RecipeContext } from '../App';
 import { useHistory, Link } from 'react-router-dom';
 
@@ -44,14 +43,14 @@ export default function LogIn() {
 		}
 	}
 	return (
-		<div className="form-wrapper">
-			<h1 className="logo">La Despensa</h1>
-			<form onSubmit={handleLogIn}>
+		<div className="sign-up-component flow-content">
+			<h1 className="logo logo-sign-up">La Despensa</h1>
+			<form onSubmit={handleLogIn} className={'form log-in flow-content bg-accent-blue'}>
 				<div>
 					<h1>Log In</h1>
 				</div>
 				{error && (
-					<div className={'Password-error'}>
+					<div className={'error'}>
 						<h4>{error}</h4>
 					</div>
 				)}
@@ -79,8 +78,11 @@ export default function LogIn() {
 				<div>
 					<button disabled={loading}>Log In</button>
 				</div>
-				<div className={'to-login'}>
-					Already an user? <Link to="/signUp">Sign Up</Link>
+				<div>
+					<span>Already an user?</span>
+					<Link className={'link-tag'} to="/signUp">
+						Sign Up
+					</Link>
 				</div>
 			</form>
 		</div>

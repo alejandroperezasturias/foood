@@ -9,16 +9,15 @@ export default function RecipeAPI({ recipe }) {
 	} = useContext(RecipeContext);
 
 	return (
-		<div>
-			<div className="recipe-API">
-				<div className={'recipe-component recipe-component__image'}>
+			<div className="recipe-card bg-light flex">
+				<div className={'dish-image'}>
 					<img src={recipe.image} alt={recipe.title}></img>
 				</div>
-				<div className={'recipe-component recipe-component__info'}>
-					<div className={'recipe-API__header'}>
+				<div className={'recipe-info flow-content'}>
+					<div className={'title'}>
 						<h1>{recipe.title}</h1>
 					</div>
-					<ul className={'recipe-component__caracteristics'}>
+					<ul className={'caracteristics flex'}>
 						{recipe.vegetarian && (
 							<li>
 								<i className="fas fa-carrot"> </i>
@@ -45,30 +44,27 @@ export default function RecipeAPI({ recipe }) {
 						)}
 					</ul>
 
-					<div className={'recipe-component__buttons'}>
-						<button
-							onClick={() => handleAddRecipeAPItoSavedOnes(recipe.id)}
-							className={'btn-add'}
-						>
+					<div className={'flex'}>
+						<button onClick={() => handleAddRecipeAPItoSavedOnes(recipe.id)}>
 							{recipes.find((r) => r.id === recipe.id) ? 'Added' : 'Add'}
 						</button>
 						<button
 							onClick={() => handleRecipeSelectIP(recipe.id)}
-							className={'btn-more'}
+							className={'btn-accent'}
 						>
 							Details
 						</button>
 					</div>
 				</div>
-				<div className={'recipe-component__score'}>
-					<h3>{recipe.spoonacularScore}</h3>
+				<div className={'score'}>
+					<span>{recipe.spoonacularScore}</span>
 					<span>score</span>
 				</div>
-				<div className={'recipe-component__time'}>
+				<div className={'time'}>
 					<i className="fas fa-clock"></i>
 					<span> {recipe.readyInMinutes}</span>
 				</div>
 			</div>
-		</div>
+
 	);
 }
